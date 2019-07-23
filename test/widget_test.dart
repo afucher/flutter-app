@@ -11,20 +11,21 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:myapp/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('MyApp test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that we show six items, six dividers, and 6 Icons to fav
+    expect(find.byType(ListTile), findsNWidgets(6));
+    expect(find.byType(Divider), findsNWidgets(6));
+    expect(find.byIcon(Icons.favorite_border), findsNWidgets(6));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Tap the fav icon and trigger a frame.
+    await tester.tap(find.byType(ListTile).first);
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that we have 1 favorited and other 5 without fav
+    expect(find.byIcon(Icons.favorite), findsOneWidget);
+    expect(find.byIcon(Icons.favorite_border), findsNWidgets(5));
   });
 }
